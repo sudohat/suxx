@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Fullscreen Single Page Flipbook</title>
+  <title>Flipbook Fullscreen</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -12,16 +12,16 @@
       margin: 0;
       padding: 0;
       height: 100%;
-      background: #000;
       overflow: hidden;
+      background: #000;
     }
 
     #flipbook {
+      width: 100vw;
+      height: 100vh;
       position: absolute;
       top: 0;
       left: 0;
-      width: 100vw;
-      height: 100vh;
     }
 
     .page {
@@ -48,13 +48,18 @@
       text-align: center;
       border-radius: 50%;
       cursor: pointer;
+      z-index: 9999;
       user-select: none;
-      z-index: 1000;
       transform: translateY(-50%);
     }
 
-    .arrow.left { left: 10px; }
-    .arrow.right { right: 10px; }
+    .arrow.left {
+      left: 10px;
+    }
+
+    .arrow.right {
+      right: 10px;
+    }
   </style>
 </head>
 <body>
@@ -63,24 +68,34 @@
     <div class="page"><img src="page1.jpg" alt="Page 1"></div>
     <div class="page"><img src="page2.jpg" alt="Page 2"></div>
     <div class="page"><img src="page3.jpg" alt="Page 3"></div>
-
-    <!-- Add more pages as needed -->
+    
   </div>
 
-  <div class="arrow left" onclick="$('#flipbook').turn('previous')">&#8592;</div>
-  <div class="arrow right" onclick="$('#flipbook').turn('next')">&#8594;</div>
+  <div class="arrow left" id="prevBtn">&#8592;</div>
+  <div class="arrow right" id="nextBtn">&#8594;</div>
 
   <script>
     $(document).ready(function () {
-      $('#flipbook').turn({
+      const $flipbook = $('#flipbook');
+
+      $flipbook.turn({
         width: window.innerWidth,
         height: window.innerHeight,
-        display: 'single', // ✅ One page at a time
+        display: 'single',
         autoCenter: true
       });
 
       $(window).on('resize', function () {
-        $('#flipbook').turn('size', window.innerWidth, window.innerHeight);
+        $flipbook.turn('size', window.innerWidth, window.innerHeight);
+      });
+
+      // ✅ Ensure buttons work after initialization
+      $('#prevBtn').on('click', function () {
+        $flipbook.turn('previous');
+      });
+
+      $('#nextBtn').on('click', function () {
+        $flipbook.turn('next');
       });
     });
   </script>
