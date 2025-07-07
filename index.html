@@ -11,6 +11,7 @@
       height: 100%;
       background: #000;
       overflow: hidden;
+      font-family: sans-serif;
     }
 
     .book {
@@ -47,6 +48,35 @@
       display: block;
       background-color: #000;
     }
+
+    /* Header Swipe Hint */
+    #swipe-hint {
+      position: absolute;
+      top: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: white;
+      font-size: 16px;
+      background: rgba(0, 0, 0, 0.4);
+      padding: 5px 10px;
+      border-radius: 10px;
+      z-index: 1000;
+      transition: opacity 0.5s;
+    }
+
+    /* Footer Page Number */
+    #page-indicator {
+      position: absolute;
+      bottom: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: white;
+      font-size: 14px;
+      background: rgba(0, 0, 0, 0.6);
+      padding: 4px 12px;
+      border-radius: 10px;
+      z-index: 1000;
+    }
   </style>
 </head>
 <body>
@@ -55,13 +85,19 @@
     <div class="page active"><img src="page1.jpg" alt="Page 1"></div>
     <div class="page"><img src="page2.jpg" alt="Page 2"></div>
     <div class="page"><img src="page3.jpg" alt="Page 3"></div>
-  
-    <!-- Add more pages as needed -->
+ 
   </div>
+
+  <div id="swipe-hint">Swipe right ➡</div>
+  <div id="page-indicator">Page 1 / 4</div>
 
   <script>
     const pages = document.querySelectorAll('.page');
+    const totalPages = pages.length;
     let current = 0;
+
+    const pageIndicator = document.getElementById('page-indicator');
+    const swipeHint = document.getElementById('swipe-hint');
 
     function updatePages() {
       pages.forEach((page, index) => {
@@ -72,10 +108,11 @@
           page.classList.add('prev');
         }
       });
+      pageIndicator.textContent = `Page ${current + 1} / ${totalPages}`;
     }
 
     function nextPage() {
-      if (current < pages.length - 1) {
+      if (current < totalPages - 1) {
         current++;
         updatePages();
       }
@@ -105,6 +142,11 @@
       if (e.key === 'ArrowRight') nextPage();
       if (e.key === 'ArrowLeft') prevPage();
     });
+
+    // Hide swipe hint after 5 seconds
+    setTimeout(() => {
+      swipeHint.style.opacity = 0;
+    }, 5000);
   </script>
 
 </body>
