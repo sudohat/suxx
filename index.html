@@ -1,22 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>PDF Viewer</title>
+  <title>Flipbook Viewer</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <style>
-    html, body {
-      margin: 0;
-      padding: 0;
-      height: 100%;
-    }
-    iframe {
-      width: 100%;
-      height: 100%;
-      border: none;
-    }
-  </style>
+  <!-- Load DearFlip -->
+  <script src="https://cdn.jsdelivr.net/npm/dearflip@2.2.0/public/js/dearflip.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/dearflip@2.2.0/public/css/dflip.min.css" rel="stylesheet">
 </head>
 <body>
-  <iframe src="x.pdf"></iframe>
+  <!-- Flipbook Viewer -->
+  <div class="dflip-book" source="x.pdf" id="my-flipbook" style="width:100%;height:600px;"></div>
 </body>
 </html>
