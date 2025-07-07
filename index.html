@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Flipbook Fullscreen</title>
+  <title>Fullscreen Single Page Flipbook</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -12,16 +12,13 @@
       margin: 0;
       padding: 0;
       height: 100%;
-      overflow: hidden;
       background: #000;
+      overflow: hidden;
     }
 
     #flipbook {
       width: 100vw;
       height: 100vh;
-      position: absolute;
-      top: 0;
-      left: 0;
     }
 
     .page {
@@ -35,31 +32,6 @@
       object-fit: cover;
       display: block;
     }
-
-    .arrow {
-      position: absolute;
-      top: 50%;
-      width: 50px;
-      height: 50px;
-      background: rgba(255, 255, 255, 0.7);
-      color: black;
-      font-size: 30px;
-      line-height: 50px;
-      text-align: center;
-      border-radius: 50%;
-      cursor: pointer;
-      z-index: 9999;
-      user-select: none;
-      transform: translateY(-50%);
-    }
-
-    .arrow.left {
-      left: 10px;
-    }
-
-    .arrow.right {
-      right: 10px;
-    }
   </style>
 </head>
 <body>
@@ -69,33 +41,28 @@
     <div class="page"><img src="page2.jpg" alt="Page 2"></div>
     <div class="page"><img src="page3.jpg" alt="Page 3"></div>
     
+    <!-- Add more pages as needed -->
   </div>
-
-  <div class="arrow left" id="prevBtn">&#8592;</div>
-  <div class="arrow right" id="nextBtn">&#8594;</div>
 
   <script>
     $(document).ready(function () {
-      const $flipbook = $('#flipbook');
-
-      $flipbook.turn({
+      $('#flipbook').turn({
         width: window.innerWidth,
         height: window.innerHeight,
-        display: 'single',
-        autoCenter: true
+        display: 'single',      // ✅ Single full-screen page
+        autoCenter: true,
+        acceleration: true,     // ✅ Better touch performance
+        gradients: true,
+        when: {
+          turned: function(event, page, view) {
+            console.log("Page: " + page);
+          }
+        }
       });
 
+      // Resize support
       $(window).on('resize', function () {
-        $flipbook.turn('size', window.innerWidth, window.innerHeight);
-      });
-
-      // ✅ Ensure buttons work after initialization
-      $('#prevBtn').on('click', function () {
-        $flipbook.turn('previous');
-      });
-
-      $('#nextBtn').on('click', function () {
-        $flipbook.turn('next');
+        $('#flipbook').turn('size', window.innerWidth, window.innerHeight);
       });
     });
   </script>
